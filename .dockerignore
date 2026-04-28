@@ -1,0 +1,14 @@
+# Ignorar node_modules e arquivos desnecessários no build
+node_modules/
+dist/
+*.log
+.env
+.env.*
+!.env.cloudrun
+.git/
+.gitignore
+README.md
+*.md
+cors.json
+setup-gcs.*
+marcenaria-storage-key.json

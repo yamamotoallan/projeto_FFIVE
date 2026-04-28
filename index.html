@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Polyfill para URL.canParse - DEVE ser o primeiro script para garantir execução antes do React Router -->
+  <script>
+    (function () {
+      'use strict';
+      // Polyfill para URL.canParse() - API muito nova (2023+) usada pelo React Router
+      if (typeof URL !== 'undefined' && !URL.canParse) {
+        URL.canParse = function (url, base) {
+          try {
+            return Boolean(new URL(url, base));
+          } catch (e) {
+            return false;
+          }
+        };
+      }
+      // Garantir que window.URL também tenha o método
+      if (typeof window !== 'undefined' && typeof window.URL !== 'undefined' && !window.URL.canParse) {
+        window.URL.canParse = URL.canParse;
+      }
+    })();
+  </script>
+
+  <title>Marcenaria Pro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #e7dbcf;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ec7f13;
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+      background: #3f3328;
+    }
+  </style>
+  <link rel="stylesheet" href="/index.css">
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-gray-100">
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+
+</html>

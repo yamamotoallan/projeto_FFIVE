@@ -1,0 +1,19 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copiar package files
+COPY package*.json ./
+
+# Instalar dependências para produção (evita instalar libs pesadas de frontend no backend)
+# Usando --production para rodar mais rápido e gastar menos memória no container
+RUN npm install --omit=dev --no-audit --no-fund
+
+# Copiar código
+COPY . .
+
+# Railway usa a porta 3000 por padrão no start.js
+EXPOSE 3000
+
+# Iniciar o servidor de backend real
+CMD ["node", "api/start.js"]

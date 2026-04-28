@@ -1,0 +1,29 @@
+# Arquivos de configuração do servidor - Trigger Deploy
+Dockerfile
+.dockerignore
+marcenaria-storage-key.json
+
+# Ignorar scripts de setup
+setup-gcs.*
+*.ps1
+
+# Ignorar documentação de deploy
+*_GUIDE.md
+BUILD_FIX.md
+FIX_FORBIDDEN.md
+VALIDATION.md
+COMO_HABILITAR_ACESSO.md
+
+# Ignorar variáveis de ambiente locais
+.env
+.env.*
+
+# Node modules
+node_modules/
+
+# Logs
+*.log
+
+# Outros
+cors.json
+LEIA_ME.txt
