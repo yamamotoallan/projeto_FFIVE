@@ -1,0 +1,25 @@
+=== Starting Financial API Diagnosis (Validation Phase) ===
+[1] Authenticating...
+Login successful. Token acquired.
+
+[2] Testing Endpoints...
+
+Testing: Receivables (GET /api/financial/receivables)
+Status: 200 OK
+Items count: 12
+First item keys: id, source_type, quote_id, installment_number, due_date, amount, status, paid_date, paid_amount, notes, quote_number, quote_description, client_name
+client_name present? true
+quote_description present? true
+
+Testing: Payables (GET /api/financial/payables)
+Status: 200 OK
+Items count: 2
+First item keys: id, source_type, supplier_id, category_id, description, amount, due_date, issue_date, status, paid_date, paid_amount, payment_method, bill_number, notes, supplier_name, category_name, category_color
+bill_number present? true
+
+Testing: Bank Movements (GET /api/financial/movements)
+Status: 200 OK
+Items count: 1
+First item keys: id, date, type, amount, description, origin_account_name, destination_account_name
+
+=== Validation Complete ===

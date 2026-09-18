@@ -1,0 +1,18 @@
+✅ **RESOLVIDO**: Se a chave JSON (`marcenaria-storage-key.json`) estiver na pasta do projeto:
+
+1. CORS não é necessário agora (backend faz intermediação)
+2. Cloud Run: Use Service Account anexado (não precisa da chave)
+
+**Para testar localmente primeiro**:
+```powershell
+# Fechar processo que está usando porta 3001
+Get-Process -Id (Get-NetTCPConnection -LocalPort 3001).OwningProcess | Stop-Process -Force
+
+# Ou mudar porta no .env (adicione):
+# PORT=3002
+
+# Depois:
+node api/start.js
+```
+
+Teste upload via frontend localhost!

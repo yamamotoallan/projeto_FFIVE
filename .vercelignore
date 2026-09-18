@@ -1,4 +1,8 @@
-# Arquivos de configuração do servidor - Trigger Deploy
+# Ignorar backend (já está no Cloud Run)
+api/
+api
+
+# Ignorar arquivos de configuração do servidor
 Dockerfile
 .dockerignore
 marcenaria-storage-key.json

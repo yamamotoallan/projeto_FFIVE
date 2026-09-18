@@ -12,9 +12,9 @@ O sistema utiliza arquitetura **cliente-servidor** com separação clara entre f
 ```
 ┌─────────────────┐        ┌──────────────────┐        ┌─────────────────┐
 │                 │        │                  │        │                 │
-│  Frontend       │──HTTPS─│  Backend         │──SQL───│  PostgreSQL     │
-│  (React/Vite)   │        │  (Node.js)       │        │  (Neon DB)      │
-│  Vercel         │        │  Railway         │        │                 │
+│  Frontend       │──HTTPS─│  Backend         │──SQL──│  PostgreSQL     │
+│  (React/Vite)   │        │  (Node.js)       │        │  (Cloud SQL)    │
+│  Vercel         │        │  Cloud Run       │        │                 │
 │                 │        │                  │        │                 │
 └─────────────────┘        └──────────────────┘        └─────────────────┘
                                     │
@@ -22,8 +22,8 @@ O sistema utiliza arquitetura **cliente-servidor** com separação clara entre f
                                     ▼
                            ┌──────────────────┐
                            │                  │
-                           │  Cloudinary      │
-                           │  (Storage)       │
+                           │  Google Cloud    │
+                           │  Storage (GCS)   │
                            │                  │
                            └──────────────────┘
 ```
@@ -93,45 +93,44 @@ useEffect(() => {
 
 ### Tecnologias
 
-- [x] **Runtime**: Node.js 20+
-- [x] **Framework**: Express.js (Arquitetura Modular)
-- [x] **Linguagem**: JavaScript (ES Modules)
-- [x] **Validação**: Zod
-- [x] **Autenticação**: JSON Web Token (JWT)
-- [x] **Email**: Nodemailer
-- [x] **Upload**: Cloudinary via Multer
-- [x] **Deploy**: Railway
+- **Runtime**: Node.js 18
+- **Framework**: Express.js
+- **Linguagem**: JavaScript (ES Modules)
+- **Validação**: Zod
+- **Autenticação**: JSON Web Token (JWT)
+- **Email**: Nodemailer
+- **Upload**: Multer + Google Cloud Storage
+- **Deploy**: Google Cloud Run
 
 ### Estrutura de Arquivos
 
 ```
-src/server/
-├── app.js                    # Express App (Centralizador)
-├── server.js                 # Entry point (Listen)
-├── db.js                     # Neon Database connection
-├── storage.js                # Cloudinary integration
-├── routes/                   # Módulos de Rota
-│   ├── users.js
-│   ├── leads.js
-│   ├── quotes.js
-│   ├── projects.js
-│   └── ...
-├── middleware/               # Middlewares (Auth, etc.)
-└── services/                 # Lógica de Negócio (Analytics, etc.)
+api/
+├── index.js                  # Main server
+├── db.js                     # Database connection
+├── storage.js                # GCS integration
+├── notifications.js          # Notifications module
+├── analytics.js              # Analytics module
+├── create_*.js               # Migration scripts
+└── test_*.js                 # Test scripts
 ```
 
 ### Módulos Principais
 
 #### 1. Database (db.js)
 
-Conexão com PostgreSQL (Neon) usando `pg`:
+Conexão com PostgreSQL usando `pg`:
 
 ```javascript
 import pkg from 'pg';
 const { Pool } = pkg;
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT,
   ssl: { rejectUnauthorized: false }
 });
 
@@ -140,24 +139,21 @@ export const query = (text, params) => pool.query(text, params);
 
 #### 2. Storage (storage.js)
 
-Cloudinary para gestão de mídia:
+Google Cloud Storage para arquivos:
 
 ```javascript
-import { v2 as cloudinary } from 'cloudinary';
+import { Storage } from '@google-cloud/storage';
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET
+const storage = new Storage({
+  projectId: process.env.GCS_PROJECT_ID
 });
 
-export async function uploadFile(fileBuffer, options) {
-  return new Promise((resolve, reject) => {
-    cloudinary.uploader.upload_stream(options, (error, result) => {
-      if (error) reject(error);
-      else resolve(result);
-    }).end(fileBuffer);
-  });
+const bucket = storage.bucket(process.env.GCS_BUCKET_NAME);
+
+export async function uploadFile(file) {
+  const blob = bucket.file(file.originalname);
+  await blob.save(file.buffer);
+  return blob.publicUrl();
 }
 ```
 
@@ -346,7 +342,7 @@ app.use(helmet());
 Permite requisições apenas de origens autorizadas:
 ```javascript
 app.use(cors({
-  origin: ['https://ffive.vercel.app'],
+  origin: ['https://gest-o-agenda-marcenaria.vercel.app'],
   credentials: true
 }));
 ```
@@ -370,14 +366,27 @@ app.use(cors({
 ### Backend (Cloud Run)
 
 **Processo**:
-3. Build automático (Railway Build System)
+1. Push para GitHub
+2. Cloud Run detecta mudança
+3. Build Docker image
 4. Deploy em containers
-5. Auto-scaling e Health Checks
+5. Auto-scaling (0-10 instâncias)
 
 **Variáveis de Ambiente**:
-- `DATABASE_URL` (Neon)
+- `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`
 - `JWT_SECRET`
-- `CLOUDINARY_URL` ou API Keys
+- `GCS_BUCKET_NAME`, `GCS_PROJECT_ID`
+
+**Dockerfile**:
+```dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 8080
+CMD ["node", "api/index.js"]
+```
 
 ---
 
@@ -474,5 +483,5 @@ gcloud logging read "resource.type=cloud_run_revision"
 
 ---
 
-*Documentação atualizada em: 02/03/2026*  
-*Versão: 2.0 (Refatoração Modular)*
+*Documentação atualizada em: 13/01/2026*  
+*Versão: 1.0*

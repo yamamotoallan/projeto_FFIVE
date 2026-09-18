@@ -11,7 +11,7 @@
 ### 1. Vercel (Frontend)
 
 **Opção A - Via Browser**:
-1. Abra: https://ffive.vercel.app
+1. Abra: https://gest-o-agenda-marcenaria.vercel.app
 2. Se carregar a página de login → ✅ Deploy OK!
 
 **Opção B - Via Vercel Dashboard**:
@@ -59,7 +59,7 @@
 
 ### Teste o Sistema Completo
 
-1. **Abra o app**: https://ffive.vercel.app
+1. **Abra o app**: https://gest-o-agenda-marcenaria.vercel.app
 2. **Faça login**: admin@marcenaria.pro / 123
 3. **Dashboard carrega?** → Sistema OK!
 4. **Performance melhorou?** → Índices funcionando! 🚀

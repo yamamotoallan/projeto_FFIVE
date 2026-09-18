@@ -1,0 +1,43 @@
+﻿
+======================================================================
+AUTO-TEST - MARCENARIA PRO BACKEND
+======================================================================
+
+[TEST 1] HEALTH CHECK
+----------------------------------------------------------------------
+Status: 200
+Database: connected
+Cloudinary: configured
+Result: [PASS]
+
+[TEST 2] LOGIN (admin@marcenaria.pro / 123)
+----------------------------------------------------------------------
+Status: 200
+Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwic...
+User: Administrador
+Result: [PASS]
+
+[TEST 3] CREATE QUOTE
+----------------------------------------------------------------------
+Status: 200
+Quote ID: 8
+Result: [PASS]
+
+[TEST 4] FILE UPLOAD
+----------------------------------------------------------------------
+Created file: python-auto-test.txt
+Status: 200
+Response: {"success":true,"files":[{"id":7,"quote_id":8,"filename":"python-auto-test.txt","original_name":"python-auto-test.txt","file_type":null,"file_size":null,"uploaded_at":"2026-01-29T21:32:54.156Z","mimetype":"text/plain","size":124,"gcs_path":"quotes/8/1769722372357-python-auto-test","uploaded_by":1,"u
+Result: [PASS]
+
+======================================================================
+TEST SUMMARY
+======================================================================
+1. Health Check:  [PASS]
+2. Login:         [PASS]
+3. Create Quote:  [PASS]
+4. File Upload:   [PASS]
+======================================================================
+
+*** ALL TESTS PASSED - SISTEMA 100% FUNCIONAL ***
+

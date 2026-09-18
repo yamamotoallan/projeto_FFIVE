@@ -1,0 +1,39 @@
+=== Starting Financial API Diagnosis ===
+[1] Authenticating...
+Login successful. Token acquired.
+
+[2] Testing Endpoints...
+
+Testing: Categories (GET /api/financial/categories)
+Status: 200 OK
+Response: OK. Data sample: [{"id":21,"name":"Aluguel","type":"expense","description":"Aluguel da marcenaria/oficina","icon":"ho...
+
+Testing: Bank Accounts (GET /api/financial/bank-accounts)
+Status: 200 OK
+Response: OK. Data sample: [{"id":3,"name":"Caixa","bank":"Dinheiro em Espécie","account_type":"cash","current_balance":"0.00",...
+
+Testing: Receivables (GET /api/financial/receivables)
+Status: 200 OK
+Response: OK. Data sample: {"installments":[]}...
+
+Testing: Payables (GET /api/financial/payables)
+Status: 200 OK
+Response: OK. Data sample: {"bills":[]}...
+
+Testing: Suppliers (GET /api/financial/suppliers)
+Status: 200 OK
+Response: OK. Data sample: [{"id":4,"name":"Distribuidora de MDF Nacional","trade_name":"MDF Nacional","document_number":"22.33...
+
+Testing: Report: DRE (GET /api/financial/reports/dre)
+Status: 200 OK
+Response: OK. Data sample: {"total_income":0,"total_expense":0,"net_profit":0}...
+
+Testing: Report: Monthly Comparison (GET /api/financial/reports/monthly-comparison)
+Status: 200 OK
+Response: OK. Data sample: []...
+
+Testing: Report: Cash Position (GET /api/financial/reports/cash-position)
+Status: 200 OK
+Response: OK. Data sample: {"accounts":[{"name":"Caixa Principal","account_type":"cash","current_balance":"0.00"},{"name":"Caix...
+
+=== Diagnosis Complete ===

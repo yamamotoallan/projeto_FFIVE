@@ -1,5 +1,5 @@
 {
-  "name": "ffive",
+  "name": "marcenaria-pro",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
-    "@react-pdf/renderer": "^4.3.2",
     "@tanstack/react-query": "^5.90.20",
     "@types/react-beautiful-dnd": "^13.1.8",
     "bcryptjs": "^3.0.3",
@@ -23,10 +22,7 @@
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "helmet": "^8.1.0",
-    "html2canvas": "^1.4.1",
     "jsonwebtoken": "^9.0.3",
-    "jspdf": "^4.2.0",
-    "jspdf-autotable": "^5.0.7",
     "lucide-react": "^0.309.0",
     "multer": "^2.0.2",
     "nodemailer": "^7.0.12",
